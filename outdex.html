@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tesla-style Hero — Single File</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { box-sizing: border-box; margin:0; padding:0; font-family: 'Inter', sans-serif; }
+    body { overflow-x:hidden; }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3%;
+      z-index: 1200;
+      transition: background 0.28s ease, box-shadow 0.28s ease;
+      pointer-events: auto;
+    }
+
+    .navbar.scrolled {
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-left .logo {
+      height: 26px;
+      display:block;
+    }
+
+    .nav-center {
+      display:flex;
+      gap:24px;
+      align-items:center;
+      justify-content:center;
+    }
+    .nav-center a, .nav-right a {
+      text-decoration:none;
+      color: #111;
+      font-size:0.95rem;
+      font-weight:500;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-right { display:flex; gap:18px; align-items:center; }
+
+    /* menu icon */
+    .menu-icon {
+      width:36px;
+      height:30px;
+      display:none; /* shown on mobile */
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      z-index:1300;
+    }
+    .menu-icon .bar {
+      display:block;
+      height:3px;
+      width:22px;
+      margin:3px 0;
+      background:#111;
+      border-radius:2px;
+      transition: transform .25s ease, opacity .2s ease;
+    }
+
+    /* HERO */
+    .hero {
+      background-image: url('https://tesla-cdn.thron.com/delivery/public/image/tesla/96a2406d-2607-4b6e-a1e3-98867d2d853b/bvlatuR/std/2880x1800/_25-Hero-D');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      text-align:center;
+      color:#111;
+      padding-bottom:100px;
+    }
+
+    .hero-text h1 {
+      font-size:3rem;
+      font-weight:600;
+      letter-spacing: -0.5px;
+    }
+    .hero-text p {
+      margin-top:10px;
+      margin-bottom:18px;
+      font-size:1.05rem;
+    }
+
+    .hero-btns { display:flex; gap:14px; justify-content:center; }
+
+    .btn {
+      padding:0.78rem 2.4rem;
+      border-radius:26px;
+      border: none;
+      cursor:pointer;
+      font-size:1rem;
+      transition: transform .12s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn.order { background: rgba(23,26,32,0.85); color:#fff; }
+    .btn.existing { background:#fff; color:#000; }
+
+    /* MOBILE MENU (animated overlay) */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.95);
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      z-index: 1250;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: transform .36s cubic-bezier(.22,.9,.25,1), opacity .28s ease;
+      pointer-events: none;
+    }
+    .mobile-menu a {
+      color:#fff;
+      text-decoration:none;
+      font-size:1.25rem;
+      font-weight:600;
+    }
+    .mobile-menu.active {
+      transform: translateX(0);
+      opacity:1;
+      pointer-events: auto;
+    }
+
+    /* small niceties */
+    .nav-center a:hover, .nav-right a:hover { opacity:0.8; }
+
+    /* === MOBILE (≤576px) === */
+    @media (max-width: 576px) {
+      .nav-center { display:none; }
+      .nav-right a { display:none; }
+      .menu-icon { display:flex; }
+
+      .hero {
+        padding-bottom:70px;
+      }
+      .hero-text h1 { font-size:2rem; }
+      .hero-text p { font-size:1rem; }
+      .hero-btns { flex-direction: column; gap:10px; }
+      .btn { width:78%; max-width: 320px; }
+
+      /* tweak menu bars when active (JS will toggle .open on .menu-icon) */
+      .menu-icon.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+      .menu-icon.open .bar:nth-child(2) { opacity: 0; transform: scaleX(.1); }
+      .menu-icon.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-left">
+      <!-- using Wikimedia tesla svg link (works cross-origin) -->
+      <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg" alt="Tesla logo">
+    </div>
+
+    <nav class="nav-center" aria-label="main navigation">
+      <a href="#">Model S</a>
+      <a href="#">Model 3</a>
+      <a href="#">Model X</a>
+      <a href="#">Model Y</a>
+      <a href="#">Solar Roof</a>
+      <a href="#">Powerwall</a>
+    </nav>
+
+    <div class="nav-right">
+      <a href="#">Shop</a>
+      <a href="#">Account</a>
+
+      <!-- menu toggle -->
+      <button id="menu-toggle" class="menu-icon" aria-label="Toggle menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="#">Model S</a>
+    <a href="#">Model 3</a>
+    <a href="#">Model X</a>
+    <a href="#">Model Y</a>
+    <a href="#">Solar Roof</a>
+    <a href="#">Powerwall</a>
+    <a href="#">Shop</a>
+    <a href="#">Account</a>
+  </nav>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" role="banner">
+      <div class="hero-text">
+        <h1>Model Y</h1>
+        <p>Order Online for <u>Touchless Delivery</u></p>
+        <div class="hero-btns">
+          <button class="btn order">Custom Order</button>
+          <button class="btn existing">Existing Inventory</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // DOM-safe init
+    (function () {
+      const navbar = document.getElementById('navbar');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      // scroll effect
+      function handleScroll() {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+      }
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll(); // initial check
+
+      // mobile menu toggle
+      function openMenu() {
+        mobileMenu.classList.add('active');
+        menuToggle.classList.add('open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+      }
+      function closeMenu() {
+        mobileMenu.classList.remove('active');
+        menuToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+
+      menuToggle.addEventListener('click', (e) => {
+        const isOpen = mobileMenu.classList.contains('active');
+        if (isOpen) closeMenu();
+        else openMenu();
+      });
+
+      // close mobile menu when a link is clicked (common UX)
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => closeMenu());
+      });
+
+      // close on Escape
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
+</body>
+</html>

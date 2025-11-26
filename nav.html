@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .dropdown-link {
+  position: static;
+}
+
+.dropdown-link a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 90vw; 
+  background: rgba(255, 255, 255, 0.98);
+  padding: 2rem 5rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 2000;
+  height: 50vh;
+}
+
+
+
+ .dropdown-link:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  transition: 0.5s ease-in-out;
+}
+
+
+.vehicle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.vehicle-item img {
+  width: 230px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.vehicle-item span {
+  font-family: 'Alan';
+  color: #222;
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.vehicle-item:hover {
+  transform: translateY(-4px);
+}
+
+.vehicle-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Toggle Button Styling */
+.theme-btn {
+  position: absolute;
+  top: 10px;
+  right: -200px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 9999;
+}
+
+.theme-btn:hover {
+  transform: scale(1.1);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2rem;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Google sans';
+}
+
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black; 
+  letter-spacing: 7px;
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: flex-end;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.2s ease;
+  font-family: 'Alan';
+}
+
+.nav-links a:hover {
+  color: #e50914;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+  font-size: 22px;  
+}
+
+.dropdown {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+    <header class="navbar" id="nav-bar">
+      <div class="logo">TESLA</div>
+
+
+<nav class="nav-links" id="mobileMenu">
+  <div class="dropdown-link">
+    <a href="#">Vehicles</a>
+    <div class="dropdown-menu">
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Model-S-New.avif" alt="Model S">
+        <span>Model S</span>
+      </div>
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Model-3-Performance-LHD.avif" alt="Model 3">
+        <span>Model 3</span>
+      </div>
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Model-Y-2-v2.avif" alt="Model Y">
+        <span>Model Y</span>
+      </div>
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Model-X-New.avif" alt="Model X">
+        <span>Model X</span>
+      </div>
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Cybertruck-1x.avif" alt="Cyber Truck">
+        <span>Cyber Truck</span>
+      </div>
+      <div class="vehicle-item">
+        <img src="IMAGES/Mega-Menu-Vehicles-Inventory.avif" alt="inventory">
+        <span>Inventory</span>
+      </div>
+    </div>
+  </div>
+
+
+            <!-- DISTANCING -->
+              <div class="dropdown-link">
+            <a href="#">Energy</a>
+            <div class="dropdown-menu">
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Energy-Solar-Panels.avif" alt="Solar Panels">
+                <span>Solar Panels</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Energy-Solar-Roof.avif" alt="Solar roof">
+                <span>Solar roof</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Energy-Powerwall-US.avif" alt="Powerwall">
+                <span>Powerwall</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Energy-Megapack.avif" alt="Mega pack">
+                <span>Mega pack</span>
+              </div>
+            </div>
+          </div>
+
+            
+              <div class="dropdown-link">
+                <a href="">Charging</a>
+            <div class="dropdown-menu">
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Charging-Charging.avif" alt="Charging">
+                <span>Charging</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Charging-Home-Charging.avif" alt="Home Charging">
+                <span>Home Charging</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Charging-Supercharging-NA.avif" alt="Super Charging">
+                <span>Super Charging</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Charging-Charging-for-Business.avif" alt="Mega pack">
+                <span>Wall Connector for business</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Charging-Supercharger-For-Business.avif" alt="Mega pack">
+                <span>Super Charger for business</span>
+              </div>
+            </div>
+          </div>
+           
+            <div class="dropdown-link">
+               <a href="shop.html">Shop</a>
+            <div class="dropdown-menu">
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Shop-Charging.avif" alt="Charging">
+                <span>Charging</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Shop-Vehicle-Accessories.avif" alt="Home Charging">
+                <span>Vehicle Assesories</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Shop-Apparel.avif" alt="Apparel">
+                <span>Apparel</span>
+              </div>
+              <div class="vehicle-item">
+                <img src="IMAGES/Mega-Menu-Shop-Lifestyle.avif" alt="Mega pack">
+                <span>Lifestyle</span>
+              </div>
+            </div>
+          </div>
+      </nav>
+      <button id="theme-toggle" class="theme-btn">🌙</button>
+      <div class="nav-actions">
+        <i class="fa fa-globe"></i>
+        <i class="fa fa-question-circle-o"></i>
+        <i class="fa fa-user-circle"></i>
+      </div>
+
+      <div class="dropdown">&#9776;</div>
+    </header>
+</body>
+</html>

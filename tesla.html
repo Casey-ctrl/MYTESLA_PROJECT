@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TESLA WEBSITE - Responsive (≤576px) + Dark/Light Toggle + Animated Nav">
+  <title>Tesla Replicate | Responsive</title>
+  <style>
+    /* Fonts (keep your local font paths) */
+    @font-face { font-family: 'Satisfy'; src: url('Google fonts/Satisfy-Regular.ttf'); }
+    @font-face { font-family: 'Google sans'; src: url('Google fonts/GoogleSansCode-VariableFont_wght.ttf'); }
+    @font-face { font-family: 'Alan'; src: url('Google fonts/AlanSans-VariableFont_wght.ttf'); }
+    @font-face { font-family: 'Sharetech'; src: url('Google fonts/ShareTech-Regular.ttf'); }
+    @font-face { font-family: 'Smooch'; src: url('Google fonts/SmoochSans-VariableFont_wght.ttf'); }
+
+    /* CSS variables for theming */
+    :root{
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --primary: hsl(224, 93%, 70%);
+      --accent: #e50914;
+      --glass: rgba(255,255,255,0.6);
+      --nav-height: 64px;
+      transition: none;
+    }
+    html[data-theme='dark']{
+      --bg: #0b0b0c;
+      --surface: #0f1113;
+      --text: #e6e6e6;
+      --muted: #bdbdbd;
+      --primary: hsl(224, 90%, 60%);
+      --accent: #ff7b7b;
+      --glass: rgba(10,10,10,0.5);
+    }
+
+    /* Smooth color transitions site-wide */
+    *{ box-sizing: border-box; }
+    body, html { height: 100%; margin: 0; font-family: 'Google sans', system-ui, Arial; background: var(--bg); color: var(--text); transition: background 350ms ease, color 350ms ease; }
+
+    /* ---------- NAV ---------- */
+    .navbar{
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1200;
+      background: linear-gradient(180deg,var(--surface), rgba(255,255,255,0));
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: box-shadow 300ms ease, background 300ms ease, transform 250ms ease;
+    }
+    .navbar.scrolled{ box-shadow: 0 8px 24px rgba(2,6,23,0.15); }
+
+    .logo{ font-size: 1.4rem; font-weight: 700; letter-spacing: 8px; color: var(--text); }
+
+    /* nav links */
+    .nav-links{ display:flex; gap: 1.8rem; align-items:center; }
+    .nav-links a{ color: var(--text); text-decoration:none; font-weight:700; font-size:13px; opacity: 1; position: relative; transition: opacity 220ms ease, color 220ms ease; }
+    .nav-links a::after{ content: ''; position: absolute; left:0; right:0; bottom:-6px; height:2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 220ms ease; }
+    .nav-links a:hover{ color: var(--accent); }
+    .nav-links a:hover::after{ transform: scaleX(1); }
+
+    /* fade effect when interacting with navbar - desktop only */
+    .nav-links.fade-target a{ transition: opacity 280ms ease; }
+    .nav-links.fade-target a:not(:hover){ opacity: 0.35; }
+
+    .nav-actions{ display:flex; align-items:center; gap: 0.8rem; font-size:18px; color:var(--text);} 
+
+    /* hamburger */
+    .dropdown{ display:none; font-size:1.6rem; cursor:pointer; }
+
+    /* toggle button */
+    .theme-toggle{ padding:0.35rem 0.55rem; border-radius:8px; border:none; cursor:pointer; background:var(--glass); color:var(--text); display:flex; align-items:center; gap:6px; font-size:14px; }
+
+    /* ---------- HERO ---------- */
+    .hero-bg{ height: 70vh; position:relative; overflow:hidden; }
+    .slide{ background-position:center; background-size:cover; height:70vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px; }
+    .slide h2{ color: #fff; font-size:3rem; text-shadow: 0 4px 18px rgba(0,0,0,0.45); margin:0; }
+    .cta-row{ display:flex; gap:12px; }
+    .cta{ padding:0.55rem 2.8rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+    .cta.primary{ background: var(--primary); color: #fff; }
+    .cta.ghost{ background: rgba(255,255,255,0.9); color:#000; }
+
+    /* ---------- CARDS / SWIPER CONTENT ---------- */
+    .swiper{ width:100%; padding: 28px 0; }
+    .cyber-cont{ position:relative; border-radius:12px; overflow:hidden; width:95%; margin: 18px auto; height:60vh; }
+    .cyber-cont img{ width:100%; height:100%; object-fit:cover; }
+    .text-box{ position:absolute; left:6%; bottom:10%; color:#fff; }
+    .text-box h2{ font-size:2.6rem; margin:0 0 8px 0; }
+    .text-box p{ margin:0 0 14px 0; }
+
+    /* reviews / feature columns */
+    .reviews-container{ display:flex; gap:16px; width:95%; margin: 24px auto; }
+    .annual-reviews{ flex:1; background: linear-gradient(180deg,var(--surface), rgba(0,0,0,0.02)); border-radius:8px; padding:12px; display:flex; gap:12px; align-items:center; }
+    .annual-reviews img{ width:45%; border-radius:6px; object-fit:cover; }
+
+    .width-container{ display:flex; gap:20px; width:95%; margin: 28px auto; }
+    .cyber-cont2{ flex:2; height:56vh; border-radius:10px; overflow:hidden; }
+    .cyber-cont2 video{ width:100%; height:100%; object-fit:cover; }
+    .features{ flex:1; border-radius:10px; overflow:hidden; }
+    .features img{ width:100%; height:100%; object-fit:cover; }
+
+    /* map and pins */
+    .map-container{ width:95%; height:70vh; margin:32px auto; border-radius:14px; overflow:hidden; position:relative; }
+    iframe{ width:100%; height:100%; border:0; filter:brightness(0.85) contrast(1.05); }
+    .pin{ position:absolute; width:18px; height:18px; background:#00ffc8; border-radius:50%; box-shadow:0 0 20px #00ffc8; transform:translate(-50%,-50%); animation:pulse 2s infinite; cursor:pointer; }
+
+    /* footer */
+    .footer{ margin-top:32px; display:flex; gap:12px; justify-content:center; align-items:center; padding:22px 0; }
+
+    /* ------------------ MOBILE (<=576px) ------------------ */
+    @media (max-width:576px){
+      :root{ --nav-height: 56px; }
+      .nav-links{ display:none; }
+      .nav-actions{ display:none; }
+      .dropdown{ display:block; }
+      .logo{ letter-spacing:4px; }
+      .navbar{ padding:0.5rem 0.9rem; }
+
+      /* Mobile menu (overlay) */
+      .mobile-menu{ position:fixed; inset:0; background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.85)); display:none; flex-direction:column; padding-top: 70px; gap:18px; align-items:center; z-index:1300; }
+      .mobile-menu.show{ display:flex; }
+      .mobile-menu a{ color:#fff; font-size:18px; text-decoration:none; font-weight:700; }
+
+      /* hero adjustments */
+      .hero-bg{ height:54vh; }
+      .slide h2{ font-size:2.1rem; text-align:center; }
+      .cta-row{ flex-direction:column; }
+      .cta{ width:70%; padding:0.6rem 0; }
+
+      /* containers become stacked */
+      .reviews-container{ flex-direction:column; }
+      .annual-reviews{ width:100%; height:auto; flex-direction:column; align-items:flex-start; }
+      .width-container{ flex-direction:column; }
+      .cyber-cont{ height:44vh; }
+      .cyber-cont2{ height:40vh; }
+      .features img{ height:40vh; }
+      .map-container{ height:55vh; }
+
+      /* make footer compact */
+      .footer{ flex-direction:column; gap:8px; padding:16px 6px; }
+    }
+
+    /* small polish */
+    @keyframes pulse{ 0% { box-shadow: 0 0 10px #00ffc8; } 50% { box-shadow: 0 0 25px #00ffc8; } 100%{ box-shadow:0 0 10px #00ffc8; } }
+
+    /* Accessibility focus rings */
+    a:focus, button:focus{ outline: 3px solid rgba(100,100,255,0.15); outline-offset: 3px; }
+
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="navbar" id="siteHeader">
+    <div class="logo">TESLA</div>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#">Vehicles</a>
+      <a href="#">Energy</a>
+      <a href="#">Charging</a>
+      <a href="#">Discover</a>
+      <a href="#">Shop</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="nav-actions" id="navActions">
+        <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Toggle dark / light">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Dark</span>
+        </button>
+      </div>
+      <div class="dropdown" id="hamburger" aria-label="Menu" aria-expanded="false">☰</div>
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true">
+    <a href="#">Vehicles</a>
+    <a href="#">Energy</a>
+    <a href="#">Charging</a>
+    <a href="#">Discover</a>
+    <a href="#">Shop</a>
+    <button id="mobileClose" style="margin-top:10px;padding:8px 20px;border-radius:8px;border:none;">Close</button>
+  </div>
+
+  <!-- HERO (example slides) -->
+  <main>
+    <section class="hero-bg">
+      <div class="slide" style="background-image:url('IMAGES/Homepage-Promo-Meet-Model-Y-Desktop.avif');">
+        <h2>Model X</h2>
+        <div class="cta-row">
+          <button class="cta primary">Order now</button>
+          <button class="cta ghost">Learn more</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simple swiper placeholder (keep your external swiper if desired) -->
+    <section class="swiper" aria-label="Featured vehicles">
+      <div class="cyber-cont">
+        <img src="IMAGES/Homepage-Card-Model-Y-Standard-Desktop-Dynamic-Asset.avif" alt="Model Y">
+        <div class="text-box">
+          <h2>Model Y</h2>
+          <p>3.99% APR Available</p>
+          <div style="display:flex;gap:10px;margin-top:10px;">
+            <button class="cta primary">Order Now</button>
+            <button class="cta ghost">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- reviews -->
+    <section class="reviews-container">
+      <div class="annual-reviews">
+        <div class="stats">
+          <h2>Current Offers</h2>
+          <p>Limited inventory. Take delivery today.</p>
+          <button class="cta ghost" style="margin-top:12px;">Learn more</button>
+        </div>
+        <img src="IMAGES/Homepage-Grid-Current-Offers.avif" alt="Current offers">
+      </div>
+
+      <div class="annual-reviews">
+        <div class="stats">
+          <h2>Annual Shareholder Meetings</h2>
+          <p>The future of Tesla is in your hands.</p>
+          <button class="cta ghost" style="margin-top:12px;">Learn more</button>
+        </div>
+        <img src="IMAGES/ASM-2025-Homepage-Grid-US.avif" alt="ASM">
+      </div>
+    </section>
+
+    <section class="width-container">
+      <div class="cyber-cont2">
+        <video autoplay loop muted playsinline>
+          <source src="VIDEO/Homepage-FSD-Desktop.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="features">
+        <img src="IMAGES/Homepage-Features-Desktop.avif" alt="features">
+      </div>
+    </section>
+
+    <section class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31771660.032472316!2d-124.848974!3d39.828175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b70f3b8d1df41d%3A0x36a7ff6d58e1b3e0!2sUnited%20States!5e0!3m2!1sen!2sus!4v1730119475000!5m2!1sen!2sus" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="pin" style="top:35%;left:15%;" onclick="goTo('California')"><div class="tooltip">California</div></div>
+      <div class="pin" style="top:55%;left:50%;" onclick="goTo('Texas')"><div class="tooltip">Texas</div></div>
+      <div class="pin" style="top:60%;left:80%;" onclick="goTo('Florida')"><div class="tooltip">Florida</div></div>
+    </section>
+
+    <footer class="footer">
+      <span>Tesla &copy; 2025</span>
+      <span>Privacy & Legal</span>
+      <span>Vehicle Recalls</span>
+      <span>Contact</span>
+    </footer>
+  </main>
+
+  <script>
+    // Theme toggle (switches data-theme on <html>)
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function updateThemeUI(){
+      const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+      themeToggle.setAttribute('aria-pressed', String(isDark));
+      themeIcon.textContent = isDark ? '☀️' : '🌙';
+      themeLabel.textContent = isDark ? 'Light' : 'Dark';
+    }
+
+    themeToggle.addEventListener('click', ()=>{
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      // small delay to ensure CSS variable transitions are visible
+      document.documentElement.style.transition = 'background 420ms ease, color 420ms ease';
+      setTimeout(()=> document.documentElement.style.transition = '', 700);
+      updateThemeUI();
+    });
+
+    // Hamburger / Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function openMobile(){
+      mobileMenu.classList.add('show');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded','true');
+    }
+    function closeMobile(){
+      mobileMenu.classList.remove('show');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded','false');
+    }
+    hamburger.addEventListener('click', ()=>{ if(mobileMenu.classList.contains('show')) closeMobile(); else openMobile(); });
+    mobileClose.addEventListener('click', closeMobile);
+
+    // Header scroll shadow
+    const header = document.getElementById('siteHeader');
+    let lastScroll = 0;
+    window.addEventListener('scroll', ()=>{
+      const sc = window.scrollY;
+      if(sc > 20){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+      lastScroll = sc;
+    });
+
+    // Nav fade interaction - when user hovers nav, fade other links
+    const navLinks = document.getElementById('navLinks');
+    navLinks.addEventListener('mouseover', ()=> navLinks.classList.add('fade-target'));
+    navLinks.addEventListener('mouseleave', ()=> navLinks.classList.remove('fade-target'));
+
+    // small helper used by pins
+    function goTo(name){ alert('Would zoom to: '+name); }
+
+    // Initialize theme UI from stored preference (if any)
+    (function initTheme(){
+      const stored = localStorage.getItem('site-theme');
+      if(stored) htmlEl.setAttribute('data-theme', stored);
+      updateThemeUI();
+      // persist changes
+      themeToggle.addEventListener('click', ()=> localStorage.setItem('site-theme', document.documentElement.getAttribute('data-theme')));
+    })();
+
+  </script>
+</body>
+</html>

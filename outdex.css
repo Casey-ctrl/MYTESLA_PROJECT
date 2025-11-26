@@ -1,0 +1,249 @@
+/* ================================================= */
+/* 0. CSS RESET & GLOBAL VARIABLES */
+/* ================================================= */
+:root {
+    /* Brand Colors (Customize These) */
+    --color-primary: #333333; /* Dark Grey/Black for Text & Buttons */
+    --color-secondary: #C89979; /* A warm accent, like a beige or rust */
+    --color-background: #FFFFFF; /* Clean White */
+    --color-light-grey: #F5F5F5; /* Light background for sections/cards */
+
+    /* Typography */
+    --font-heading: 'Georgia', serif; /* Elegant, premium feel */
+    --font-body: 'Helvetica Neue', sans-serif; /* Clean, modern legibility */
+    --font-size-base: 16px;
+    
+    /* Spacing & Borders */
+    --spacing-sm: 8px;
+    --spacing-md: 20px;
+    --spacing-lg: 40px;
+    --border-radius: 4px;
+}
+
+/* Minimal Reset (Normalize box model and remove default padding/margin) */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    color: var(--color-primary);
+    line-height: 1.6;
+    background-color: var(--color-background);
+}
+
+/* ================================================= */
+/* 1. TYPOGRAPHY & BUTTONS (Re-usable Elements) */
+/* ================================================= */
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--color-secondary);
+}
+
+/* Primary CTA Button Style */
+.cta-button.primary {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    padding: 12px 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--color-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cta-button.primary:hover {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* Secondary CTA Button Style (e.g., View All) */
+.cta-button.secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 10px 20px;
+    /* ... other styling ... */
+}
+
+
+/* ================================================= */
+/* 2. HEADER & NAVIGATION (Mobile-First) */
+/* ================================================= */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px var(--spacing-md);
+    border-bottom: 1px solid var(--color-light-grey);
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-background);
+}
+
+.primary-nav {
+    /* Hidden by default on mobile, usually toggled by a hamburger menu icon */
+    display: none; 
+}
+
+/* Utility icons need styling for search, cart, and account icons */
+.utility-icons {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+/* ================================================= */
+/* 3. HOMEPAGE SECTIONS (index.html) */
+/* ================================================= */
+
+/* Hero Banner */
+.hero-banner {
+    position: relative;
+    height: 80vh; /* Full viewport height on mobile */
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-background); /* Assumes dark image background */
+    max-width: 90%;
+}
+
+/* Product & Category Grids (Reusable Layout) */
+.product-grid, .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) 0;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ================================================= */
+/* 4. PRODUCT DETAIL PAGE (pdp-template.html) */
+/* ================================================= */
+.product-detail-layout {
+    display: flex;
+    flex-direction: column; /* Stacks vertically on mobile */
+    padding: var(--spacing-md);
+}
+
+/* Image Gallery */
+.product-gallery {
+    margin-bottom: var(--spacing-md);
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+}
+
+/* Info Panel (Keep sticky on scroll for mobile) */
+.product-info-panel {
+    /* On mobile, this will scroll normally */
+}
+
+/* Accordion Styling (For Details, Shipping, Reviews) */
+.accordion-item .accordion-header {
+    width: 100%;
+    padding: 15px 0;
+    text-align: left;
+    border: none;
+    border-top: 1px solid var(--color-light-grey);
+    cursor: pointer;
+    font-family: var(--font-heading);
+}
+
+.accordion-content {
+    /* Initially hidden via display: none; or max-height: 0; */
+    padding: var(--spacing-md) 0;
+}
+
+
+/* ================================================= */
+/* 5. FOOTER */
+/* ================================================= */
+.main-footer {
+    background-color: var(--color-light-grey);
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.footer-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Auto-stack/wrap on small screens */
+    gap: var(--spacing-md);
+}
+
+
+/* ================================================= */
+/* 6. MEDIA QUERIES (Desktop Overrides) */
+/* ================================================= */
+
+@media (min-width: 768px) {
+    
+    /* General Layout */
+    .main {
+        max-width: 1200px; /* Constrain content width */
+        margin: 0 auto;
+    }
+
+    /* Header & Nav */
+    .primary-nav {
+        display: block; /* Show menu bar on desktop */
+    }
+    .primary-nav ul {
+        display: flex;
+        list-style: none;
+        gap: var(--spacing-lg);
+    }
+    
+    /* Homepage Grid */
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+    }
+
+    /* Product Detail Page Layout */
+    .product-detail-layout {
+        flex-direction: row; /* Side-by-side layout */
+        gap: var(--spacing-lg);
+    }
+    
+    .product-gallery {
+        width: 60%; /* More room for images */
+        position: sticky;
+        top: 100px; /* Stick images below the header */
+        height: fit-content;
+    }
+    
+    .product-info-panel {
+        width: 40%; /* Focus on the purchase details */
+        position: sticky; 
+        top: 100px; /* Can make this sticky for long product descriptions */
+        height: fit-content;
+    }
+}
+
+
