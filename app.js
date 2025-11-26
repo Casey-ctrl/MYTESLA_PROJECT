@@ -70,5 +70,10 @@ function goTo(state) {
     navbar.classList.remove('sticky')
   })
 
-
-  
+/*
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Casey-ctrl/MYTESLA_PROJECT.git
+// git push -u origin main*/
