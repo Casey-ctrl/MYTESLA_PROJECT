@@ -67,7 +67,7 @@ function goTo(state) {
   })
 
   navbar.addEventListener('mouseleave' = ()=> {
-    navbar.classList.remove('sticky')
+    navbar.classList.remove('fixed')
   })
 
 /*
