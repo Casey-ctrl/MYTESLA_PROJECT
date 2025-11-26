@@ -67,13 +67,19 @@ function goTo(state) {
   })
 
   navbar.addEventListener('mouseleave' = ()=> {
-    navbar.classList.remove('fixed')
+    navbar.classList.remove('sticky')
   })
 
-/*
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/Casey-ctrl/MYTESLA_PROJECT.git
-// git push -u origin main*/
+/* 
+git init                      # Initialize Git in the folder
+git add .                      # Stage all files to start tracking
+git commit -m "initial commit" # Take the first snapshot
+git remote add origin <repo-url> # Casey-ctrl/MYTESLA_PROJECT
+git branch -M main             # Make sure main branch exists
+git push -u origin main        # Push first commit to GitHub
+*/
+_________
+/* git add .                      # Stage new/changed files
+git commit -m "your message"   # Save a snapshot
+git push                        # Upload to GitHub
+*/
