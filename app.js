@@ -1,27 +1,7 @@
 // GET DATE ELEMENT 
 let date = new Date();
 // Carousel responsible for the Hero bg fadeout!!!
-var owl = $('.owl-carousel');
-owl.owlCarousel({
-    items:1,
-    loop:true,
-    margin:10,
-    autoplay:true,
-    autoplayTimeout:2500,
-    autoplayHoverPause:true,
-    animateOut: 'fadeOut'
-});
-$('.play').on('click',function(){
-    owl.trigger('play.owl.autoplay',[2000])
-})
-$('.stop').on('click',function(){
-    owl.trigger('stop.owl.autoplay')
-})
 
-
-$(document).ready(function(){
-  $(".owl-carousel").owlCarousel();
-});
 
 
 const dropdown = document.querySelector('.dropdown');
